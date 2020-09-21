@@ -1,7 +1,7 @@
 // fork getUserMedia for multiple browser versions, for those
 // that need prefixes
 
-navigator.mediaDevices.getUserMedia = (navigator.getUserMedia ||
+navigator.getUserMedia = (navigator.getUserMedia ||
                           navigator.webkitGetUserMedia ||
                           navigator.mozGetUserMedia ||
                           navigator.msGetUserMedia);
@@ -108,9 +108,9 @@ var drawVisual;
 
 //main block for doing the audio recording
 
-if (navigator.mediaDevices.getUserMedia) {
+if (navigator.getUserMedia) {
    //console.log('getUserMedia supported.');
-   navigator.mediaDevices.getUserMedia (
+   navigator.getUserMedia (
       // constraints - only audio needed for this app
       {
          audio: true
