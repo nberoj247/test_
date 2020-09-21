@@ -115,9 +115,10 @@ if (navigator.getUserMedia) {
       {
          audio: true
       },
-      
       // Success callback
       function(stream) {
+        console.log("1",stream);
+        
         source = audioCtx.createMediaStreamSource(stream);
         source.connect(analyser);
         analyser.connect(distortion);
@@ -128,6 +129,27 @@ if (navigator.getUserMedia) {
 
         visualize();
         voiceChange();
+
+        /*record 2020-09-21 추가*/ 
+        var mediaRecorder = new MediaRecorder(stream);
+        mediaRecorder.addEventListener('dataavailable', function(e) {
+          if (e.data.size > 0) {
+            recordedChunks.push(e.data);
+          }
+    
+          if(shouldStop === true && stopped === false) {
+            mediaRecorder.stop();
+            stopped = true;
+          }
+        });
+    
+        mediaRecorder.addEventListener('stop', function() {
+          downloadLink.href = URL.createObjectURL(new Blob(recordedChunks));
+          downloadLink.download = 'acetest.wav';
+        });
+        
+        mediaRecorder.start();
+         /*record*/ 
 
       },
       
@@ -156,17 +178,18 @@ function visualize() {
 
     canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
 
+
     function draw() {
 
       drawVisual = requestAnimationFrame(draw);
 
       analyser.getFloatTimeDomainData(dataArray);
 
-      canvasCtx.fillStyle = 'rgb(200, 200, 200)';
+      canvasCtx.fillStyle = 'rgb(0, 0,0)';
       canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
 
       canvasCtx.lineWidth = 2;
-      canvasCtx.strokeStyle = 'rgb(0, 0, 0)';
+      canvasCtx.strokeStyle = 'rgb(255, 255, 255)';
 
       canvasCtx.beginPath();
 
