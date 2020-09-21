@@ -185,7 +185,7 @@ function visualize() {
 
       analyser.getFloatTimeDomainData(dataArray);
 
-      canvasCtx.fillStyle = 'rgb(0, 0,0)';
+      canvasCtx.fillStyle = 'rgb(0, 0, 0)';
       canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
 
       canvasCtx.lineWidth = 2;
